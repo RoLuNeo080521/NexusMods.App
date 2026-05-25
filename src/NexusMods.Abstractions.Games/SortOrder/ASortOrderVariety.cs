@@ -143,9 +143,13 @@ public abstract class ASortOrderVariety<TKey, TReactiveSortItem, TItemLoadoutDat
         }
         
         if (token.IsCancellationRequested) return;
-        
-        // TODO: Should we retry if the transaction fails due to a data race?
-        await TryPersistSortOrder(sortOrderId, stagingList, dbToUse, token);
+
+        // Note: no auto-retry on data races — recomputing against newer DB state may
+        // not preserve the user's drop-target intent. ReconcileSortOrder handles
+        // retry-able cases.
+        var succeeded = await TryPersistSortOrder(sortOrderId, stagingList, dbToUse, token);
+        if (!succeeded)
+            _logger.LogWarning("MoveItems for sort order {SortOrderId} did not persist (data race). User action was lost — they may need to retry.", sortOrderId);
     }
 
     /// <inheritdoc />
@@ -186,9 +190,13 @@ public abstract class ASortOrderVariety<TKey, TReactiveSortItem, TItemLoadoutDat
         }
             
         if (token.IsCancellationRequested) return;
-        
-        // TODO: Should we retry if the transaction fails due to a data race?
-        await TryPersistSortOrder(sortOrderId, stagingList, dbToUse, token);
+
+        // Note: no auto-retry on data races — re-applying the same delta on a newer
+        // base position changes the absolute destination, which would not match the
+        // user's intent.
+        var succeeded = await TryPersistSortOrder(sortOrderId, stagingList, dbToUse, token);
+        if (!succeeded)
+            _logger.LogWarning("MoveItemDelta for sort order {SortOrderId} did not persist (data race). User action was lost — they may need to retry.", sortOrderId);
     }
 
     /// <inheritdoc />
