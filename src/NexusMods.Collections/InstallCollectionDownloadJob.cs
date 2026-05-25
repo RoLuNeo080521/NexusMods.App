@@ -85,6 +85,7 @@ public class InstallCollectionDownloadJob : IJobDefinitionWithStart<InstallColle
             FileStore = serviceProvider.GetRequiredService<IFileStore>(),
             LibraryService = serviceProvider.GetRequiredService<ILibraryService>(),
             LoadoutManager = serviceProvider.GetRequiredService<ILoadoutManager>(),
+            FallbackInstaller = new FallbackCollectionInstaller(serviceProvider, new GamePath(LocationId.Game, "")),
         };
     }
 
