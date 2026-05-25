@@ -113,7 +113,27 @@ public class Sorter : ISorter
                 }
             }
 
-            if (superSetSize == 0) throw new InvalidOperationException("Cyclic dependency detected");
+            if (superSetSize == 0)
+            {
+                // Dépendance cyclique détectée parmi les éléments restants.
+                // Avant, on levait une exception qui bloquait toute l'opération
+                // (ex: une collection entière ne s'installait pas parce que deux mods
+                // avaient des règles before/after contradictoires).
+                // Désormais on casse le cycle en émettant les éléments restants dans
+                // un ordre déterministe, en ignorant les règles impossibles entre eux.
+                // Les tris sans cycle ne sont PAS affectés (même chemin qu'avant).
+                dict.Values.CopyTo(values, 0);
+                var remaining = values.AsSpan(0, dict.Count);
+                if (comparer != null)
+                {
+                    remaining.Sort((a, b) => comparer.Compare(idSelector(a.Item), idSelector(b.Item)));
+                }
+                foreach (var value in remaining)
+                {
+                    sorted.Add(value.Item);
+                }
+                break;
+            }
 
             // Slice to our superset.
             valuesSlice = valuesSlice.Slice(0, superSetSize);
