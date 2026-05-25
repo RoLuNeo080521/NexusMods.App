@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using NexusMods.Abstractions.Diagnostics;
 using NexusMods.Abstractions.Diagnostics.Emitters;
@@ -22,7 +23,7 @@ public partial class MissingProtontricksForRedModEmitter : ILoadoutDiagnosticEmi
 
     public async IAsyncEnumerable<Diagnostic> Diagnose(
         Loadout.ReadOnly loadout,
-        CancellationToken cancellationToken)
+        [EnumeratorCancellation] CancellationToken cancellationToken)
     {
         var install = loadout.InstallationInstance;
         var locations = install.Locations;

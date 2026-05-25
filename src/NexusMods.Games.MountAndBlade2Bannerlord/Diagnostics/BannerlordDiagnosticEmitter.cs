@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using Bannerlord.ModuleManager;
 using Bannerlord.ModuleManager.Models.Issues;
 using Microsoft.Extensions.DependencyInjection;
@@ -40,7 +41,7 @@ internal partial class BannerlordDiagnosticEmitter : ILoadoutDiagnosticEmitter
         _gameDomain = mappingCache[Bannerlord.NexusModsGameId.Value];
     }
 
-    public async IAsyncEnumerable<Diagnostic> Diagnose(Loadout.ReadOnly loadout, CancellationToken cancellationToken)
+    public async IAsyncEnumerable<Diagnostic> Diagnose(Loadout.ReadOnly loadout, [EnumeratorCancellation] CancellationToken cancellationToken)
     {
         var modulesAndMods = await Helpers.GetAllManifestsAsync(_logger, loadout, _manifestPipeline, cancellationToken).ToArrayAsync(cancellationToken);
         var modulesOnly = modulesAndMods.Select(x => x.Item2).ToArray();
