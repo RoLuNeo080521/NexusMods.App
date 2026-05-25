@@ -2,7 +2,7 @@
 >
 > **This is an unofficial, community-maintained fork of the Nexus Mods App. It is _not_ affiliated with, endorsed by, or supported by Nexus Mods / Black Tree Gaming Ltd.**
 >
-> The original developers [paused development of the Nexus Mods App to refocus on Vortex](https://www.nexusmods.com). This fork exists to keep the **Linux** experience working for the community by maintaining bug fixes on top of their excellent work.
+> The original developers [paused development of the Nexus Mods App to refocus on Vortex](https://help.nexusmods.com/article/164-discontinuing-the-nexus-mods-app-faq). This fork exists to keep the **Linux** experience working for the community by maintaining bug fixes on top of their excellent work.
 >
 > ### Why this fork exists
 >
