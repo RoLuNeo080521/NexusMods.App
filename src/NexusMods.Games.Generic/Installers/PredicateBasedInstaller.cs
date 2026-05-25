@@ -59,7 +59,7 @@ public class PredicateBasedInstaller : ALibraryArchiveInstaller
                     continue;
                 for (var i = 0; i < path.Length; i++)
                 {
-                    if (child.Key.ToString().EndsWith(path[i], StringComparison.InvariantCultureIgnoreCase))
+                    if (child.Key.ToString().EndsWith(path[i], StringComparison.OrdinalIgnoreCase))
                         return true;
                 }
             }
@@ -79,12 +79,12 @@ public class PredicateBasedInstaller : ALibraryArchiveInstaller
         /// <summary>
         /// Returns true if this node has a direct child that ends with the given postfix.
         /// </summary>
-        public bool HasDirectChildEndingIn(string postfix) => _node.Value.Item.Children.Any(c => c.Key.ToString().EndsWith(postfix, StringComparison.InvariantCultureIgnoreCase));
+        public bool HasDirectChildEndingIn(string postfix) => _node.Value.Item.Children.Any(c => c.Key.ToString().EndsWith(postfix, StringComparison.OrdinalIgnoreCase));
         
         /// <summary>
         /// Returns true if this node has a direct child with the given name.
         /// </summary>
-        public bool HasDirectChild(string name) => _node.Value.Item.Children.Any(c => c.Key.ToString().Equals(name, StringComparison.InvariantCultureIgnoreCase));
+        public bool HasDirectChild(string name) => _node.Value.Item.Children.Any(c => c.Key.ToString().Equals(name, StringComparison.OrdinalIgnoreCase));
         
         /// <summary>
         /// Returns true if any of the direct children of this node are files with the given extensions.
@@ -197,7 +197,7 @@ public class PredicateBasedInstaller : ALibraryArchiveInstaller
     {
         return pattern switch
         {
-            string s => s.Equals(path, StringComparison.InvariantCultureIgnoreCase),
+            string s => s.Equals(path, StringComparison.OrdinalIgnoreCase),
             Regex r => r.IsMatch(path),
             Extension e => path.Extension == e,
             _ => throw new Exception($"No handler for pattern type {pattern.GetType()}")
