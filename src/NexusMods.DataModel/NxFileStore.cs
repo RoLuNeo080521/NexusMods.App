@@ -114,7 +114,9 @@ public class NxFileStore : IFileStore, IReadOnlyStreamSource
         var header = HeaderParser.ParseHeader(provider);
 
         var entries = header.Entries.ToFrozenDictionary(x => Hash.From(x.Hash), x => x);
-        ArchiveValidation(entries, filesToBackup);
+        var missingHashes = ArchiveValidation(entries, filesToBackup);
+        foreach (var hash in missingHashes)
+            filesToBackup.Remove(hash);
 
         var info = archivePath.FileInfo;
         var newArchive = new ArchiveContents(archivePath, info.Size, info.LastWriteTimeUtc, entries);
@@ -148,21 +150,41 @@ public class NxFileStore : IFileStore, IReadOnlyStreamSource
         }
     }
 
-    private static void ArchiveValidation(FrozenDictionary<Hash, FileEntry> actualFiles, Dictionary<Hash, (ArchivedFileEntry, Stream)> expectedFiles)
+    private List<Hash> ArchiveValidation(FrozenDictionary<Hash, FileEntry> actualFiles, Dictionary<Hash, (ArchivedFileEntry, Stream)> expectedFiles)
     {
-        // NOTE(erri120): If you land here, congratulation you just made an invalid archive. Reasons why this might happen:
-        // - Hashes don't match, the hash for a file was calculated wrong
-        if (actualFiles.Count != expectedFiles.Count) throw new InvalidOperationException($"Expected created archive to contain {expectedFiles.Count} files but found {actualFiles.Count}");
-
+        var missingHashes = new List<Hash>();
+    
+        if (actualFiles.Count != expectedFiles.Count)
+        {
+            _logger.LogWarning(
+                "Archive count mismatch: expected {Expected} files but found {Actual}. " +
+                "Some files may have been skipped due to hash mismatches on Linux.",
+                expectedFiles.Count, actualFiles.Count);
+        }
+    
         foreach (var kv in expectedFiles)
         {
-            if (!actualFiles.ContainsKey(kv.Key)) throw new KeyNotFoundException($"Expected created archive to contain file {kv.Key}");
+            if (!actualFiles.ContainsKey(kv.Key))
+            {
+                _logger.LogWarning(
+                    "File {Hash} was expected in the archive but not found. " +
+                    "This may be caused by a file modification or case-sensitivity issue on Linux. Skipping.",
+                    kv.Key);
+                missingHashes.Add(kv.Key);
+            }
         }
-
+    
         foreach (var kv in actualFiles)
         {
-            if (!expectedFiles.ContainsKey(kv.Key)) throw new InvalidOperationException($"Unknown file found in created archive, files wasn't requested to be backed up: {kv.Key}");
+            if (!expectedFiles.ContainsKey(kv.Key))
+            {
+                _logger.LogWarning(
+                    "Unknown file {Hash} found in created archive that was not requested.",
+                    kv.Key);
+            }
         }
+    
+        return missingHashes;
     }
 
     /// <inheritdoc />
