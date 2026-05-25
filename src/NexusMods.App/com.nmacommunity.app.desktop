@@ -2,16 +2,16 @@
 Type=Application
 # Version=1.5
 # Commented out because PupNet needs updating to recognise 1.5, so letting it default to latest is ideal.
-Name=Nexus Mods App
+Name=NMA Community Edition
 GenericName=Mod Manager
-Comment=Mod Manager for your games
+Comment=Community fork of the Nexus Mods App
 Categories=Game
 Terminal=false
-StartupWMClass=NexusMods.App
+StartupWMClass=NMAcommunity.App
 MimeType=x-scheme-handler/nxm
-Icon=com.nexusmods.app
+Icon=com.nmacommunity.app
 Exec=${INSTALL_EXEC} %u
 TryExec=${INSTALL_TRYEXEC}
 X-AppImage-Integrate=true
-X-AppImage-Name=NexusMods.App
+X-AppImage-Name=NMAcommunity.App
 X-AppImage-Arch=x86_64

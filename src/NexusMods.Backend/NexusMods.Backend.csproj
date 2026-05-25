@@ -19,7 +19,7 @@
     </ItemGroup>
     
     <ItemGroup>
-        <EmbeddedResource Include="../NexusMods.App/com.nexusmods.app.desktop" />
+        <EmbeddedResource Include="../NexusMods.App/com.nmacommunity.app.desktop" />
     </ItemGroup>
 
     <ItemGroup>

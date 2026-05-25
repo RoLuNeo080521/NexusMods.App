@@ -7,7 +7,7 @@ namespace NexusMods.Networking.Steam;
 internal class AppDirectoryAuthStorage(IFileSystem fileSystem) : IAuthStorage
 {
     private readonly AbsolutePath _storagePath = fileSystem.GetKnownPath(KnownPath.LocalApplicationDataDirectory)
-                                                 / (fileSystem.OS.IsOSX ? "NexusMods_App" : "NexusMods.App")
+                                                 / (fileSystem.OS.IsOSX ? "NMAcommunity_App" : "NMAcommunity.App")
                                                  / "steam/auth";
     
     public async Task<(bool Success, byte[] Data)> TryLoad()

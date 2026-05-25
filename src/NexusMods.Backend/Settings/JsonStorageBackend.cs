@@ -42,7 +42,7 @@ public sealed class JsonStorageBackend : IStorageBackend
         );
 
         // NOTE: OSX ".App" is apparently special, using _ instead of . to prevent weirdness
-        var baseDirectoryName = os.IsOSX ? "NexusMods_App/Configs" : "NexusMods.App/Configs";
+        var baseDirectoryName = os.IsOSX ? "NMAcommunity_App/Configs" : "NMAcommunity.App/Configs";
         return fileSystem.GetKnownPath(baseKnownPath).Combine(baseDirectoryName);
     }
 

@@ -1,1 +1,1 @@
-NexusMods.App.exe uninstall-app
+NMAcommunity.App.exe uninstall-app

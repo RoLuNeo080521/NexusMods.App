@@ -2,19 +2,19 @@
 <component type="desktop-application">
     <!-- See https://www.freedesktop.org/software/appstream/docs/chap-Metadata.html#spec-component-filespec -->
 
-    <id>com.nexusmods.app</id>
+    <id>com.nmacommunity.app</id>
     <metadata_license>CC0-1.0</metadata_license>
     <project_license>GPL-3.0-only</project_license>
 
-    <name>Nexus Mods App</name>
-    <summary>Mod Manager for your games</summary>
+    <name>NMA Community Edition</name>
+    <summary>Community fork of the Nexus Mods App</summary>
 
-    <developer id="com.nexusmods">
-        <name>The Nexus Mods Team</name>
+    <developer id="com.nmacommunity">
+        <name>NMA Community</name>
     </developer>
 
     <description>
-        <p>The Nexus Mods App is a mod manager for your games and the successor to Vortex with native support for Linux.</p>
+        <p>NMA Community Edition is a community fork of the Nexus Mods App, a mod manager for your games with native support for Linux.</p>
     </description>
 
     <branding>
@@ -22,16 +22,12 @@
         <color type="primary" scheme_preference="dark">#1d1d21</color>
     </branding>
 
-    <launchable type="desktop-id">com.nexusmods.app.desktop</launchable>
+    <launchable type="desktop-id">com.nmacommunity.app.desktop</launchable>
 
-    <url type="homepage">https://github.com/Nexus-Mods/NexusMods.App</url>
-    <url type="bugtracker">https://github.com/Nexus-Mods/NexusMods.App/issues</url>
-    <url type="faq">https://nexus-mods.github.io/NexusMods.App/users/faq/</url>
-    <url type="help">https://nexus-mods.github.io/NexusMods.App/users</url>
-    <url type="translate">https://nexus-mods.github.io/NexusMods.App/developers/Contributing/</url>
-    <url type="contact">https://discord.gg/ReWTxb93jS</url>
-    <url type="vcs-browser">https://github.com/Nexus-Mods/NexusMods.App</url>
-    <url type="contribute">https://nexus-mods.github.io/NexusMods.App/developers/Contributing/</url>
+    <url type="homepage">https://github.com/RoLuNeo080521/NexusMods.App</url>
+    <url type="bugtracker">https://github.com/RoLuNeo080521/NexusMods.App/issues</url>
+    <url type="vcs-browser">https://github.com/RoLuNeo080521/NexusMods.App</url>
+    <url type="contribute">https://github.com/RoLuNeo080521/NexusMods.App/blob/main/CONTRIBUTING.md</url>
 
     <content_rating type="oars-1.0">
         <content_attribute id="social-info">intense</content_attribute>

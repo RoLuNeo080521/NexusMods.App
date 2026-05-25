@@ -20,7 +20,7 @@ function DeleteDirectory {
 }
 
 # Kill the App Client and Server
-Stop-Process -Name "NexusMods.App" -Force -ErrorAction SilentlyContinue
+Stop-Process -Name "NMAcommunity.App" -Force -ErrorAction SilentlyContinue
 
 # Note(Sewer) Ensure the process handles are freed, just in case.
 Start-Sleep -Seconds 1

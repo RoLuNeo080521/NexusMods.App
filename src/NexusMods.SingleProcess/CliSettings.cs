@@ -33,9 +33,9 @@ public class CliSettings() : ISettings
     {
         var fs = provider.GetRequiredService<IFileSystem>();
         var directory = fs.OS.MatchPlatform(
-            () => fs.GetKnownPath(KnownPath.LocalApplicationDataDirectory).Combine("NexusMods.App"),
+            () => fs.GetKnownPath(KnownPath.LocalApplicationDataDirectory).Combine("NMAcommunity.App"),
             () => fs.GetKnownPath(KnownPath.XDG_RUNTIME_DIR),
-            () => fs.GetKnownPath(KnownPath.ApplicationDataDirectory).Combine("NexusMods_App")
+            () => fs.GetKnownPath(KnownPath.ApplicationDataDirectory).Combine("NMAcommunity_App")
         );
 
         return new CliSettings

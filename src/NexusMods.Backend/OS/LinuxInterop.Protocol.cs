@@ -8,7 +8,7 @@ namespace NexusMods.Backend.OS;
 
 internal partial class LinuxInterop
 {
-    private const string ApplicationId = "com.nexusmods.app";
+    private const string ApplicationId = "com.nmacommunity.app";
     private const string DesktopFile = $"{ApplicationId}.desktop";
     private const string DesktopFileResourceName = $"NexusMods.Backend.{DesktopFile}";
     private const string ExecuteParameterPlaceholder = "${INSTALL_EXEC}";
