@@ -90,20 +90,58 @@ internal partial class LinuxInterop : IOSInterop
 
     private async Task OpenUriImpl(Uri uri)
     {
-        var portal = await GetPortal();
-        await portal.OpenUriAsync(uri);
+        try
+        {
+            var portal = await GetPortal();
+            await portal.OpenUriAsync(uri);
+        }
+        catch (Exception ex) when (ex is DllNotFoundException or InvalidOperationException or TimeoutException)
+        {
+            _logger.LogWarning(ex, "XDG Desktop Portal unavailable (libX11 missing?), falling back to xdg-open for: {Uri}", uri);
+            await FallbackOpen(uri.ToString());
+        }
     }
- 
+    
     private async Task OpenFileImpl(AbsolutePath filePath)
     {
-        var portal = await GetPortal();
-        await portal.OpenFileAsync(file: FilePath.From(filePath.ToNativeSeparators(_fileSystem.OS)));
+        try
+        {
+            var portal = await GetPortal();
+            await portal.OpenFileAsync(file: FilePath.From(filePath.ToNativeSeparators(_fileSystem.OS)));
+        }
+        catch (Exception ex) when (ex is DllNotFoundException or InvalidOperationException or TimeoutException)
+        {
+            _logger.LogWarning(ex, "XDG Desktop Portal unavailable, falling back to xdg-open for: {Path}", filePath);
+            await FallbackOpen(filePath.ToNativeSeparators(_fileSystem.OS));
+        }
     }
-
+    
     private async Task OpenFileInDirectoryImpl(AbsolutePath filePath)
     {
-        var portal = await GetPortal();
-        await portal.OpenFileInDirectoryAsync(file: FilePath.From(filePath.ToNativeSeparators(_fileSystem.OS)));
+        try
+        {
+            var portal = await GetPortal();
+            await portal.OpenFileInDirectoryAsync(file: FilePath.From(filePath.ToNativeSeparators(_fileSystem.OS)));
+        }
+        catch (Exception ex) when (ex is DllNotFoundException or InvalidOperationException or TimeoutException)
+        {
+            _logger.LogWarning(ex, "XDG Desktop Portal unavailable, falling back to xdg-open for: {Path}", filePath);
+            await FallbackOpen(filePath.Parent.ToNativeSeparators(_fileSystem.OS));
+        }
+    }
+    
+    // Méthode de secours utilisant xdg-open directement
+    private async Task FallbackOpen(string target)
+    {
+        try
+        {
+            var command = Cli.Wrap("xdg-open").WithArguments([target]);
+            await _processRunner.RunAsync(command, logOutput: false);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to open '{Target}' with xdg-open fallback", target);
+        }
     }
 
     public async ValueTask<FileSystemMount[]> GetFileSystemMounts(CancellationToken cancellationToken = default)
@@ -233,11 +271,17 @@ internal sealed class DesktopPortalConnectionManagerWrapper : IAsyncDisposable
     private async ValueTask<DesktopPortalConnectionManager> InitAsync()
     {
         await _semaphoreSlim.WaitAsync(timeout: TimeSpan.FromSeconds(10));
-
-        var manager = await DesktopPortalConnectionManager.ConnectAsync();
-        _instance = manager;
-
-        return manager;
+        try
+        {
+            if (_instance is not null) return _instance;
+            var manager = await DesktopPortalConnectionManager.ConnectAsync();
+            _instance = manager;
+            return manager;
+        }
+        finally
+        {
+            _semaphoreSlim.Release();
+        }
     }
 
     public ValueTask<DesktopPortalConnectionManager> GetInstance()
