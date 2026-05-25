@@ -834,7 +834,7 @@ Refer to the {ProtontricksUri} for installation instructions.
     [DiagnosticTemplate, UsedImplicitly]
     internal static IDiagnosticTemplate MissingBLSETemplate = DiagnosticTemplateBuilder
         .Start()
-        .WithId(new DiagnosticId(Source, 16))
+        .WithId(new DiagnosticId(Source, 18))
         .WithTitle("'{ModName}' Requires Bannerlord Software Extender (BLSE)")
         .WithSeverity(DiagnosticSeverity.Critical)
         .WithSummary("'{ModName}' Requires Bannerlord Software Extender (BLSE) which is not installed")
