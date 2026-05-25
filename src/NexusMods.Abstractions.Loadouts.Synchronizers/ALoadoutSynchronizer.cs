@@ -845,7 +845,7 @@ public partial class ALoadoutSynchronizer : ILoadoutSynchronizer
                 if (!isUnix)
                     continue;
 
-                var ext = resolvedPath.Extension.ToString().ToLower();
+                var ext = resolvedPath.Extension.ToString().ToLowerInvariant();
                 if (ext is not ("" or ".sh" or ".bin" or ".run" or ".py" or ".pl" or ".php" or ".rb" or ".out"
                     or ".elf")) continue;
 

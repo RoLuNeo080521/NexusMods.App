@@ -184,7 +184,7 @@ internal partial class LinuxInterop : IOSInterop
         if (!lineEnumerator.MoveNext()) return null;
 
         var source = lineEnumerator.Current.ToString();
-        return knownFileSystemMounts.FirstOrDefault(x => x.Source.Equals(source, StringComparison.OrdinalIgnoreCase));
+        return knownFileSystemMounts.FirstOrDefault(x => x.Source.Equals(source, StringComparison.Ordinal));
     }
 
     internal static FileSystemMount[] ParseFileSystemMounts(IFileSystem fileSystem, ReadOnlySpan<char> stdOut)
