@@ -42,10 +42,9 @@ public class DependencyDiagnosticEmitter : ILoadoutDiagnosticEmitter
         var bg3LoadoutFile = GetScriptExtenderLoadoutFile(loadout);
         
         // BG3SE WINEDLLOVERRIDE diagnostic
-        if (_os.IsLinux  && bg3LoadoutFile.HasValue && loadout.Installation.Store == GameStore.Steam)
+        if (_os.IsLinux && bg3LoadoutFile.HasValue && loadout.Installation.Store == GameStore.Steam)
         {
-            // yield return Diagnostics.
-            yield return Diagnostics.CreateBg3SeWineDllOverrideSteam(Template: "text");
+            yield return Diagnostics.CreateBg3SeWineDllOverrideSteam();
         }
 
         var diagnostics = await DiagnosePakModulesAsync(loadout, bg3LoadoutFile, cancellationToken);

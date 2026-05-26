@@ -115,12 +115,11 @@ internal static partial class Diagnostics
                      
                      
                      ## Details:
-                     BG3SE adds `DWrite.dll` file to the game folder, which replaces a Windows system dll normally located in windows system folders. 
+                     BG3SE adds `DWrite.dll` file to the game folder, which replaces a Windows system dll normally located in windows system folders.
                      On windows the game will automatically load the dll file from the game folder if present, preferring that over the system one.
                      On Wine, to achieve the same effect, you need to set the WINEDLLOVERRIDE environment variable to tell Wine to load the game's DWrite.dll instead of the system one.
                      """
-        
         )
-        .WithMessageData(messageBuilder => messageBuilder.AddValue<string>("Template"))
+        .WithMessageData(messageBuilder => messageBuilder)
         .Finish();
 }

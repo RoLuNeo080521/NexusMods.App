@@ -247,9 +247,19 @@ public class DiagnosticTemplateIncrementalSourceGenerator : IIncrementalGenerato
                         }
                     }
 
-                    cw.AppendLine("else");
-                    using (cw.AddBlock())
+                    if (parsedData.ParsedMessageBuilderFields.Count > 0)
                     {
+                        cw.AppendLine("else");
+                        using (cw.AddBlock())
+                        {
+                            cw.AppendLine("throw new global::System.NotImplementedException();");
+                        }
+                    }
+                    else
+                    {
+                        // No message-data fields: any {placeholder} encountered in the
+                        // message text is unexpected. Throw to surface the bug instead
+                        // of silently dropping it.
                         cw.AppendLine("throw new global::System.NotImplementedException();");
                     }
 
@@ -314,8 +324,21 @@ public class DiagnosticTemplateIncrementalSourceGenerator : IIncrementalGenerato
         if (!IsInvocationWithName(next, withMessageData, out var withMessageDataArguments, out next)) return false;
         if (withMessageDataArguments.Count != 1) return false;
         if (withMessageDataArguments[0].Expression is not SimpleLambdaExpressionSyntax messageBuilderExpression) return false;
-        if (messageBuilderExpression.Body is not InvocationExpressionSyntax messageBuilderExpressionBody) return false;
-        if (!ParseMessageBuilder(semanticModel, messageBuilderExpressionBody, out var parsedMessageBuilderFields)) return false;
+
+        List<ParsedMessageBuilderField> parsedMessageBuilderFields;
+        if (messageBuilderExpression.Body is InvocationExpressionSyntax messageBuilderExpressionBody)
+        {
+            if (!ParseMessageBuilder(semanticModel, messageBuilderExpressionBody, out parsedMessageBuilderFields)) return false;
+        }
+        else if (messageBuilderExpression.Body is IdentifierNameSyntax)
+        {
+            // Pass-through lambda (e.g. `b => b`): the template has no message-data fields.
+            parsedMessageBuilderFields = [];
+        }
+        else
+        {
+            return false;
+        }
 
         // WithDetails
         ExpressionSyntax? detailsTemplateExpression = null;
