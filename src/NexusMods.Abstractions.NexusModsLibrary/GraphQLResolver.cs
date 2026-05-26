@@ -66,7 +66,7 @@ public readonly struct GraphQLResolver(ITransaction Tx, ReadOnlyModel Model, boo
     /// <summary>
     /// Whether we're updating an existing entity or creating a new one.
     /// </summary>
-    public bool Existing => Existing;
+    public bool Existing { get; } = Existing;
     
     /// <summary>
     /// Add a value to the entity. If the value already exists, it will not be added again.
