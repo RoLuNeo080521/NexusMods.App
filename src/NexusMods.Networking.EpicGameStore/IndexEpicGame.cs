@@ -85,7 +85,7 @@ public static class IndexEpicGame
         foreach (var (relPath, multiHash) in hashes)
         {
             var hashStr = multiHash.XxHash3.ToString()[2..];
-            var path = hashPathRoot / $"{hashStr[..2]}" / (hashStr.ToRelativePath() + ".json");
+            var path = hashPathRoot / $"{hashStr[..2]}" / RelativePath.FromUnsanitizedInput($"{hashStr}.json");
             path.Parent.CreateDirectory();
 
             await using var outputStream = path.Create();

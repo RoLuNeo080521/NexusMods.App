@@ -64,7 +64,7 @@ public static class Verbs
                 var existingHashes = await LoadExistingHashes(hashFolder, indentedOptions, token);
 
                 // Write the product info to a file
-                var productFile = output / "stores" / "steam" / "apps" / (productInfo.AppId + ".json").ToRelativePath();
+                var productFile = output / "stores" / "steam" / "apps" / RelativePath.FromUnsanitizedInput($"{productInfo.AppId}.json");
                 {
                     productFile.Parent.CreateDirectory();
                     await using var outputStream = productFile.Create();
@@ -89,7 +89,7 @@ public static class Verbs
                                 manifestInfo.Key, token
                             );
 
-                            var manifestPath = output / "stores" / "steam" / "manifests" / (manifest.ManifestId + ".json").ToRelativePath();
+                            var manifestPath = output / "stores" / "steam" / "manifests" / RelativePath.FromUnsanitizedInput($"{manifest.ManifestId}.json");
                             {
                                 manifestPath.Parent.CreateDirectory();
                                 while (true)

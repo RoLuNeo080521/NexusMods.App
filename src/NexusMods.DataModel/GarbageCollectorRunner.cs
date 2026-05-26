@@ -19,7 +19,7 @@ public class GarbageCollectorRunner(ISettingsManager settings, NxFileStore store
     /// <inheritdoc />
     public void Run()
     {
-        RunGarbageCollector.Do(logger, _settings.ArchiveLocations, _store, _connection);
+        RunGarbageCollector.Do(_logger, _settings.ArchiveLocations, _store, _connection);
     }
     
     /// <inheritdoc />
