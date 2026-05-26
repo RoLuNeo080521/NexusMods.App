@@ -121,8 +121,23 @@ public class CommandLineConfigurator
     {
         var aliases = new[] { "-" + optionDefinition.ShortName, "--" + optionDefinition.LongName };
 
+        // Booleans are flags: presence == true. Let System.CommandLine handle
+        // the native flag semantics instead of going through our custom parser
+        // (which can't distinguish "flag present without value" from "flag
+        // absent" — both yield an empty Tokens collection).
+        if (typeof(T) == typeof(bool))
+        {
+            return new Option<bool>(aliases, optionDefinition.HelpText);
+        }
+
         ParseArgument<T> parser = result =>
         {
+            // For optional options that were not supplied on the command line,
+            // System.CommandLine still calls the custom parser with an empty
+            // Tokens collection. Calling .Single() on it threw
+            // InvalidOperationException, so return default and let the method's
+            // default parameter value take effect.
+            if (result.Tokens.Count == 0) return default!;
             var service = _provider.GetService<IOptionParser<T>>();
             if (service is null) return default!;
             if (service.TryParse(result.Tokens.Single().Value, out var itm, out var error)) return itm;
