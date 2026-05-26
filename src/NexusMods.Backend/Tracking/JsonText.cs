@@ -5,7 +5,7 @@ namespace NexusMods.Backend.Tracking;
 
 internal static class JsonText
 {
-    public static readonly JsonEncodedText AppNameValue = JsonEncodedText.Encode("Nexus Mods App");
+    public static readonly JsonEncodedText AppNameValue = JsonEncodedText.Encode("NMA Community Edition");
     public static readonly JsonEncodedText AppVersionValue = JsonEncodedText.Encode(ApplicationConstants.Version.ToSafeString(maxFieldCount: 3));
     public static readonly JsonEncodedText PlatformTypeValue = JsonEncodedText.Encode("app");
 

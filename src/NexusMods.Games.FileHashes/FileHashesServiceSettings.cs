@@ -58,7 +58,7 @@ public record FileHashesServiceSettings : ISettings
 
         return new FileHashesServiceSettings
         {
-            HashDatabaseLocation = new ConfigurablePath(baseKnownPath, "NexusMods.App/FileHashesDatabase"),
+            HashDatabaseLocation = new ConfigurablePath(baseKnownPath, "NMAcommunity.App/FileHashesDatabase"),
         };
     }
 }

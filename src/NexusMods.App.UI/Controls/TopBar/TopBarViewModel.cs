@@ -45,10 +45,7 @@ public class TopBarViewModel : AViewModel<ITopBarViewModel>, ITopBarViewModel
     public ReactiveUI.ReactiveCommand<NavigationInformation, Unit> ViewChangelogCommand { get; }
     public ReactiveUI.ReactiveCommand<Unit, Unit> ViewAppLogsCommand { get; }
     public ReactiveUI.ReactiveCommand<Unit, Unit> ShowWelcomeMessageCommand { get; }
-    public ReactiveUI.ReactiveCommand<Unit, Unit> OpenDiscordCommand { get; }
-    public ReactiveUI.ReactiveCommand<Unit, Unit> OpenForumsCommand { get; }
     public ReactiveUI.ReactiveCommand<Unit, Unit> OpenGitHubCommand { get; }
-    public ReactiveUI.ReactiveCommand<Unit, Unit> OpenStatusPageCommand { get; }
     public R3.ReactiveCommand<R3.Unit, R3.Unit> LoginCommand { get; }
     public ReactiveUI.ReactiveCommand<Unit, Unit> LogoutCommand { get; }
     public ReactiveUI.ReactiveCommand<Unit, Unit> OpenNexusModsProfileCommand { get; }
@@ -167,10 +164,7 @@ public class TopBarViewModel : AViewModel<ITopBarViewModel>, ITopBarViewModel
 
         OpenNexusModsAccountSettingsCommand = ReactiveCommand.Create(() => osInterop.OpenUri(NexusModsUrlBuilder.UserSettingsUri));
         OpenNexusModsPremiumCommand = ReactiveCommand.Create( () => osInterop.OpenUri(NexusModsUrlBuilder.UpgradeToPremiumUri));
-        OpenDiscordCommand = ReactiveCommand.Create( () => osInterop.OpenUri(ConstantLinks.DiscordUri));
-        OpenForumsCommand = ReactiveCommand.Create( () => osInterop.OpenUri(ConstantLinks.ForumsUri));
-        OpenGitHubCommand = ReactiveCommand.Create( () => osInterop.OpenUri(ConstantLinks.GitHubUri));
-        OpenStatusPageCommand = ReactiveCommand.Create(() => osInterop.OpenUri(ConstantLinks.StatusPageUri));
+        OpenGitHubCommand = ReactiveCommand.Create(() => osInterop.OpenUri(ConstantLinks.GitHubUri));
 
         this.WhenActivated(d =>
             {

@@ -40,7 +40,7 @@ public class CliSettings() : ISettings
 
         return new CliSettings
         {
-            SyncFile = directory.Combine("NexusMods.App-sync_file.sync"),
+            SyncFile = directory.Combine("NMAcommunity.App-sync_file.sync"),
         };
     }
 

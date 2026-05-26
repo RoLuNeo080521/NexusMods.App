@@ -124,15 +124,15 @@ public record LoggingSettings : ISettings
 
         return new LoggingSettings
         {
-            MainProcessLogFilePath = new ConfigurablePath(baseKnownPath, $"{baseDirectoryName}/nexusmods.app.main.current.log"),
-            MainProcessArchiveFilePath = new ConfigurablePath(baseKnownPath, $"{baseDirectoryName}/nexusmods.app.main.{{##}}.log"),
-            SlimProcessLogFilePath = new ConfigurablePath(baseKnownPath, $"{baseDirectoryName}/nexusmods.app.slim.current.log"),
-            SlimProcessArchiveFilePath = new ConfigurablePath(baseKnownPath, $"{baseDirectoryName}/nexusmods.app.slim.{{##}}.log"),
+            MainProcessLogFilePath = new ConfigurablePath(baseKnownPath, $"{baseDirectoryName}/nmacommunity.app.main.current.log"),
+            MainProcessArchiveFilePath = new ConfigurablePath(baseKnownPath, $"{baseDirectoryName}/nmacommunity.app.main.{{##}}.log"),
+            SlimProcessLogFilePath = new ConfigurablePath(baseKnownPath, $"{baseDirectoryName}/nmacommunity.app.slim.current.log"),
+            SlimProcessArchiveFilePath = new ConfigurablePath(baseKnownPath, $"{baseDirectoryName}/nmacommunity.app.slim.{{##}}.log"),
         };
     }
     
     // NOTE: OSX ".App" is apparently special, using _ instead of . to prevent weirdness
-    private static string GetBaseDirectoryName(IOSInformation os) => os.IsOSX ? "NexusMods_App/Logs" : "NexusMods.App/Logs";
+    private static string GetBaseDirectoryName(IOSInformation os) => os.IsOSX ? "NMAcommunity_App/Logs" : "NMAcommunity.App/Logs";
 
     private static KnownPath BaseKnownPath(IOSInformation os)
     {

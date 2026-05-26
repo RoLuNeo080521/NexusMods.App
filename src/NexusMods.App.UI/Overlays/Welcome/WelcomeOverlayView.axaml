@@ -10,16 +10,6 @@
     xmlns:icons="clr-namespace:NexusMods.UI.Sdk.Icons;assembly=NexusMods.UI.Sdk"
     mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
     x:Class="NexusMods.App.UI.Overlays.WelcomeOverlayView">
-    
-    <!-- Design view doesn't refresh the Height when the Expander is open like it does when built -->
-    
-    <reactive:ReactiveUserControl.Styles>
-        <Style Selector="Expander#PrivacyPolicyExpander">
-            <Style Selector="^ /template/ ToggleButton#ExpanderHeader">
-                <Setter Property="Background" Value="{StaticResource SurfaceTransparentBrush}" />
-            </Style>
-        </Style>
-    </reactive:ReactiveUserControl.Styles>
 
     <Border MinWidth="576" MaxWidth="576"
             Background="{StaticResource SurfaceLowBrush}"
@@ -38,19 +28,19 @@
                     <TextBlock Theme="{StaticResource BodyXLBoldTheme}"
                                TextAlignment="Center"
                                Foreground="{StaticResource NeutralStrongBrush}"
-                               Text="Welcome to the"/>
+                               Text="Welcome to"/>
                     <TextBlock Theme="{StaticResource BodyXLBoldTheme}"
                                TextAlignment="Center"
                                Foreground="{StaticResource AppLinearGradientBrush}"
-                               Text="Nexus Mods App Preview"/>
+                               Text="NMA Community Edition"/>
                 </StackPanel>
-                
+
 
                 <TextBlock Theme="{StaticResource BodyMDNormalTheme}"
                            TextAlignment="Center"
                            TextWrapping="Wrap"
                            Foreground="{StaticResource NeutralSubduedBrush}"
-                           Text="Currently, the app supports Stardew Valley and Cyberpunk 2077 with more games coming soon. Share your feedback anytime using the 'Give Feedback' button in the footer." />
+                           Text="Community fork of the Nexus Mods App, focused on keeping Linux modding working. Includes community fixes and patches." />
             </StackPanel>
 
             <StackPanel Spacing="8">
@@ -58,27 +48,9 @@
                            TextAlignment="Center"
                            TextWrapping="Wrap"
                            Foreground="{StaticResource NeutralSubduedBrush}"
-                           Text="Join the discussion on:" />
+                           Text="Source code and issue tracker:" />
 
                 <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing-4}" HorizontalAlignment="Center">
-                    <controls:StandardButton x:Name="ButtonOpenDiscord"
-                                             Text="Discord"
-                                             Type="Secondary"
-                                             Fill="None"
-                                             Size="Small"
-                                             ShowIcon="Left"
-                                             LeftIcon="{x:Static icons:IconValues.Discord}"
-                                             ToolTip.Tip="Open Discord" />
-
-                    <controls:StandardButton x:Name="ButtonOpenForum"
-                                             Text="Nexus Mods Forums"
-                                             Type="Secondary"
-                                             Fill="None"
-                                             Size="Small"
-                                             ShowIcon="Left"
-                                             LeftIcon="{x:Static icons:IconValues.Forum}"
-                                             ToolTip.Tip="Open Forums at Nexus Mods" />
-
                     <controls:StandardButton x:Name="ButtonOpenGitHub"
                                              Text="GitHub"
                                              Type="Secondary"
@@ -86,7 +58,7 @@
                                              Size="Small"
                                              ShowIcon="Left"
                                              LeftIcon="{x:Static icons:IconValues.GitHub}"
-                                             ToolTip.Tip="Open GitHub" />
+                                             ToolTip.Tip="Open the GitHub repository" />
                 </StackPanel>
             </StackPanel>
 
@@ -96,7 +68,7 @@
                            TextAlignment="Center"
                            TextWrapping="Wrap"
                            Foreground="{StaticResource NeutralSubduedBrush}"
-                           Text="Enjoy the preview, and happy modding!" />
+                           Text="Happy modding!" />
                 <Border Height="1" Background="{StaticResource SurfaceMidBrush}" />
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"
@@ -120,35 +92,9 @@
                                              Fill="Strong"
                                              Size="Small" />
                 </StackPanel>
-                <Expander x:Name="PrivacyPolicyExpander" HorizontalAlignment="Stretch">
-
-                    <Expander.Header>
-                        <CheckBox x:Name="CheckBoxAllowTelemetry"
-                                  HorizontalAlignment="Stretch"
-                                  IsChecked="True">Allow this app to collect usage data to improve your experience</CheckBox>
-                    </Expander.Header>
-
-                    <Border Padding="0,12">
-                        <StackPanel Spacing="12">
-                            <TextBlock Theme="{StaticResource BodySMNormalTheme}"
-                                       TextAlignment="Left"
-                                       TextWrapping="Wrap"
-                                       Foreground="{StaticResource NeutralSubduedBrush}"
-                                       Text="Help us provide you with the best modding experience. With your permission, we will collect analytics information and send it to our team to help us improve quality and performance. This information is sent anonymously and will never be shared with a 3rd party." />
-
-                            <controls:StandardButton x:Name="ButtonOpenPrivacyPolicy"
-                                                     Text="Privacy Policy"
-                                                     Type="Tertiary"
-                                                     Fill="Weak"
-                                                     Size="Small"
-                                                     LeftIcon="{x:Static icons:IconValues.OpenInNew}"
-                                                     ShowIcon="Left" />
-                        </StackPanel>
-                    </Border>
-                </Expander>
             </StackPanel>
-            
-            
+
+
         </StackPanel>
 
     </Border>

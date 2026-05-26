@@ -42,7 +42,7 @@ public record FileExtractorSettings : ISettings
 
         return new FileExtractorSettings
         {
-            TempFolderLocation = new ConfigurablePath(baseKnownPath, "NexusMods.App/Temp"),
+            TempFolderLocation = new ConfigurablePath(baseKnownPath, "NMAcommunity.App/Temp"),
         };
     }
 }

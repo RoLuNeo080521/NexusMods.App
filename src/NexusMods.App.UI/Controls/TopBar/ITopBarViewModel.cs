@@ -19,10 +19,7 @@ public interface ITopBarViewModel : IViewModelInterface
     public ReactiveCommand<NavigationInformation, Unit> ViewChangelogCommand { get; }
     public ReactiveCommand<Unit, Unit> ViewAppLogsCommand { get; }
     public ReactiveCommand<Unit, Unit> ShowWelcomeMessageCommand { get; }
-    public ReactiveCommand<Unit, Unit> OpenDiscordCommand { get; }
-    public ReactiveCommand<Unit, Unit> OpenForumsCommand { get; }
     public ReactiveCommand<Unit, Unit> OpenGitHubCommand { get; }
-    public ReactiveCommand<Unit, Unit> OpenStatusPageCommand { get; }
 
     public R3.ReactiveCommand<R3.Unit, R3.Unit> LoginCommand { get; }
     public ReactiveCommand<Unit, Unit> LogoutCommand { get; }

@@ -145,29 +145,10 @@
                                     <icons:UnifiedIcon Value="{x:Static icons:IconValues.FileDocumentOutline}" />
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="{x:Static resources:Language.OpenStatusPageMenuItem_Header}"
-                                      x:Name="OpenStatusPageMenuItem">
-                                <MenuItem.Icon>
-                                    <icons:UnifiedIcon Value="{x:Static icons:IconValues.Broadcast}" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="-" />
-                            <MenuItem Header="{x:Static resources:Language.OpenDiscordMenuItem_Header}"
-                                      x:Name="OpenDiscordMenuItem">
-                                <MenuItem.Icon>
-                                    <icons:UnifiedIcon Value="{x:Static icons:IconValues.Discord}" />
-                                </MenuItem.Icon>
-                            </MenuItem>
                             <MenuItem Header="{x:Static resources:Language.OpenGitHubMenuItem_Header}"
                                       x:Name="OpenGitHubMenuItem">
                                 <MenuItem.Icon>
                                     <icons:UnifiedIcon Value="{x:Static icons:IconValues.GitHub}" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="{x:Static resources:Language.OpenForumsMenuItem_Header}"
-                                      x:Name="OpenForumsMenuItem">
-                                <MenuItem.Icon>
-                                    <icons:UnifiedIcon Value="{x:Static icons:IconValues.Forum}" />
                                 </MenuItem.Icon>
                             </MenuItem>
                             <MenuItem Header="-" />
