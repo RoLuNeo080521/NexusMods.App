@@ -56,7 +56,7 @@ OR
     [UsedImplicitly] 
     internal static IDiagnosticTemplate MissingModWithKnownNexusUriWithStringSegment = DiagnosticTemplateBuilder
         .Start()
-        .WithId(new DiagnosticId(Source, number: 1))
+        .WithId(new DiagnosticId(Source, number: 7))
         .WithTitle("Missing Dependency")
         .WithSeverity(DiagnosticSeverity.Warning)
         .WithSummary("'{Group}' requires '{DependencyName}' which is not installed")
@@ -134,7 +134,7 @@ OR
     [UsedImplicitly] 
     internal static IDiagnosticTemplate DisabledGroupDependencyWithStringSegment = DiagnosticTemplateBuilder
         .Start()
-        .WithId(new DiagnosticId(Source, number: 2))
+        .WithId(new DiagnosticId(Source, number: 8))
         .WithTitle("Disabled Mod Dependency")
         .WithSeverity(DiagnosticSeverity.Warning)
         .WithSummary("'{Group}' requires '{DependencyName}' but it is disabled")

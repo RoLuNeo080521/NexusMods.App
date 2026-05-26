@@ -57,10 +57,11 @@ public interface IDataReference<out TDataId, TData> : IDataReference
     }
 
     /// <summary>
-    /// Resolves the data at <see cref="IDataReference.DataStoreId"/>.
+    /// Resolves the data at <see cref="IDataReference.TxId"/> using the live connection.
     /// </summary>
     /// <returns><c>null</c> if the value doesn't exist in the data store.</returns>
-    new TData? ResolveData(IServiceProvider serviceProvider, IConnection dataStore);
+    // Note: this is an overload (different second parameter type), not a hide, so `new` is not needed.
+    TData? ResolveData(IServiceProvider serviceProvider, IConnection dataStore);
 
     /// <summary>
     /// Converts the data from <see cref="ResolveData"/> to a string representation.

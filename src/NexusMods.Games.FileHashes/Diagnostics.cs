@@ -31,7 +31,7 @@ changes made by you or a game store (such as GOG Galaxy, Steam, etc.) may render
     [UsedImplicitly] 
     internal static IDiagnosticTemplate UndeployableLoadoutDueToMissingGameFiles = DiagnosticTemplateBuilder
         .Start()
-        .WithId(new DiagnosticId(Source, number: 1))
+        .WithId(new DiagnosticId(Source, number: 2))
         .WithTitle("Missing Game Files")
         .WithSeverity(DiagnosticSeverity.Critical)
         .WithSummary("Loadout can't be applied due to {FileCount} missing game file(s) with no valid source")
