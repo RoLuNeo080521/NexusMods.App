@@ -80,7 +80,7 @@ public class HighPerformanceLogging : IBenchmark
 internal static partial class LoggingExtensions
 {
     [LoggerMessage(
-        EventId = 0,
+        EventId = 1,
         Level = LogLevel.Trace,
         Message = HighPerformanceLogging.LoggingMessageWithReferenceTypes)]
     public static partial void WithReferenceTypes(
@@ -89,7 +89,7 @@ internal static partial class LoggingExtensions
         string b);
 
     [LoggerMessage(
-        EventId = 0,
+        EventId = 2,
         Level = LogLevel.Trace,
         Message = HighPerformanceLogging.LoggingMessageWithValueTypes)]
     public static partial void WithValueTypes(
