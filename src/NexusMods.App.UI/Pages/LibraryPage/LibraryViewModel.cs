@@ -23,6 +23,7 @@ using NexusMods.App.UI.Dialog.Standard;
 using NexusMods.App.UI.Dialog.Enums;
 using NexusMods.App.UI.Extensions;
 using NexusMods.App.UI.Overlays;
+using NexusMods.App.UI.Controls.Navigation;
 using NexusMods.App.UI.Pages.Library;
 using NexusMods.App.UI.Pages.LibraryPage.Collections;
 using NexusMods.App.UI.Resources;
@@ -73,6 +74,7 @@ public class LibraryViewModel : APageViewModel<ILibraryViewModel>, ILibraryViewM
 
     public ReactiveCommand<Unit> OpenNexusModsCommand { get; }
     public ReactiveCommand<Unit> OpenNexusModsCollectionsCommand { get; }
+    public ReactiveCommand<Unit> OpenDiscoverModsPageCommand { get; }
 
     [Reactive] public int SelectionCount { get; private set; }
     
@@ -242,6 +244,21 @@ public class LibraryViewModel : APageViewModel<ILibraryViewModel>, ILibraryViewM
             var gameDomain = _gameIdMappingCache[game.NexusModsGameId.Value];
             var gameUri = NexusModsUrlBuilder.GetBrowseCollectionsUri(gameDomain);
             osInterop.OpenUri(gameUri);
+        });
+
+        OpenDiscoverModsPageCommand = new ReactiveCommand<Unit>(execute: _ =>
+        {
+            var pageData = new PageData
+            {
+                FactoryId = DiscoverModsPage.DiscoverModsPageFactory.StaticId,
+                Context = new DiscoverModsPage.DiscoverModsPageContext
+                {
+                    LoadoutId = loadoutId,
+                },
+            };
+            var workspaceController = GetWorkspaceController();
+            var behavior = workspaceController.GetOpenPageBehavior(pageData, NavigationInformation.From(OpenPageBehaviorType.NewTab));
+            workspaceController.OpenPage(workspaceController.ActiveWorkspaceId, pageData, behavior);
         });
 
         this.WhenActivated(disposables =>

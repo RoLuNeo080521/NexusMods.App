@@ -1,0 +1,114 @@
+<reactive:ReactiveUserControl
+    x:TypeArguments="local:IDiscoverModsViewModel"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:reactive="http://reactiveui.net"
+    xmlns:local="clr-namespace:NexusMods.App.UI.Pages.DiscoverModsPage"
+    xmlns:icons="clr-namespace:NexusMods.UI.Sdk.Icons;assembly=NexusMods.UI.Sdk"
+    xmlns:controls="clr-namespace:NexusMods.App.UI.Controls"
+    mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="600"
+    x:Class="NexusMods.App.UI.Pages.DiscoverModsPage.DiscoverModsView">
+
+    <Grid RowDefinitions="Auto, Auto, *, Auto" Margin="24">
+
+        <!-- Header -->
+        <StackPanel Grid.Row="0" Orientation="Vertical" Spacing="4">
+            <TextBlock Text="Discover mods"
+                       FontSize="20"
+                       FontWeight="SemiBold" />
+            <TextBlock Text="Scan the game folder for mods already installed (manually or by another mod manager) and import them into this loadout."
+                       TextWrapping="Wrap"
+                       Opacity="0.8" />
+        </StackPanel>
+
+        <!-- Toolbar -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="8" Margin="0,16,0,8">
+            <controls:StandardButton x:Name="ScanButton"
+                                     Text="Rescan"
+                                     Type="Tertiary"
+                                     Size="Toolbar"
+                                     Fill="None"
+                                     ShowIcon="Left"
+                                     LeftIcon="{x:Static icons:IconValues.Refresh}" />
+            <controls:StandardButton x:Name="SelectAllButton"
+                                     Text="Select all"
+                                     Type="Tertiary"
+                                     Size="Toolbar"
+                                     Fill="None" />
+            <controls:StandardButton x:Name="DeselectAllButton"
+                                     Text="Deselect all"
+                                     Type="Tertiary"
+                                     Size="Toolbar"
+                                     Fill="None" />
+            <TextBlock x:Name="StatusTextBlock"
+                       VerticalAlignment="Center"
+                       Margin="16,0,0,0"
+                       Opacity="0.8" />
+        </StackPanel>
+
+        <!-- List -->
+        <Border Grid.Row="2"
+                BorderBrush="{StaticResource StrokeTranslucentSubduedBrush}"
+                BorderThickness="1"
+                CornerRadius="4">
+            <ScrollViewer>
+                <ItemsControl x:Name="ItemsList">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="local:DiscoveredModItemViewModel">
+                            <Grid ColumnDefinitions="Auto, 80, *, Auto, Auto, Auto"
+                                  Margin="12,8"
+                                  ColumnSpacing="12">
+                                <CheckBox Grid.Column="0"
+                                          IsChecked="{Binding IsSelected, Mode=TwoWay}"
+                                          VerticalAlignment="Center" />
+                                <Border Grid.Column="1"
+                                        Background="{StaticResource SurfaceTranslucentMidBrush}"
+                                        CornerRadius="2"
+                                        Padding="6,2"
+                                        VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding TypeText}"
+                                               FontSize="11"
+                                               HorizontalAlignment="Center" />
+                                </Border>
+                                <TextBlock Grid.Column="2"
+                                           Text="{Binding NameText}"
+                                           VerticalAlignment="Center"
+                                           TextTrimming="CharacterEllipsis" />
+                                <TextBlock Grid.Column="3"
+                                           Text="{Binding VersionText}"
+                                           VerticalAlignment="Center"
+                                           Opacity="0.7" />
+                                <TextBlock Grid.Column="4"
+                                           Text="{Binding FilesText}"
+                                           VerticalAlignment="Center"
+                                           Opacity="0.7"
+                                           Margin="8,0,0,0" />
+                                <TextBlock Grid.Column="5"
+                                           Text="{Binding StatusText}"
+                                           VerticalAlignment="Center"
+                                           Margin="12,0,0,0" />
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Border>
+
+        <!-- Footer with Import button -->
+        <StackPanel Grid.Row="3"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    Margin="0,16,0,0">
+            <controls:StandardButton x:Name="ImportButton"
+                                     Text="Import selected"
+                                     Type="Primary"
+                                     Size="Medium"
+                                     Fill="Strong"
+                                     ShowIcon="Left"
+                                     LeftIcon="{x:Static icons:IconValues.Download}" />
+        </StackPanel>
+    </Grid>
+
+</reactive:ReactiveUserControl>

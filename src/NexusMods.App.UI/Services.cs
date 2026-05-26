@@ -48,6 +48,7 @@ using NexusMods.App.UI.Pages.Downloads;
 using NexusMods.App.UI.Pages.LibraryPage;
 using NexusMods.App.UI.Pages.LibraryPage.Collections;
 using NexusMods.App.UI.Pages.LoadoutGroupFilesPage;
+using NexusMods.App.UI.Pages.DiscoverModsPage;
 using NexusMods.App.UI.Pages.LoadoutPage;
 using NexusMods.App.UI.Pages.LoadoutPage.Dialogs;
 using NexusMods.App.UI.Pages.LoadoutPage.Dialogs.CollectionPublished;
@@ -194,6 +195,8 @@ public static class Services
             .AddView<DownloadsPageView, IDownloadsPageViewModel>()
             .AddView<LoadoutView, ILoadoutViewModel>()
 
+            .AddView<DiscoverModsView, IDiscoverModsViewModel>()
+
             .AddView<CollectionDownloadView, ICollectionDownloadViewModel>()
             .AddViewModel<CollectionDownloadViewModel, ICollectionDownloadViewModel>()
             
@@ -268,6 +271,7 @@ public static class Services
             .AddSingleton<IPageFactory, LibraryPageFactory>()
             .AddSingleton<IPageFactory, DownloadsPageFactory>()
             .AddSingleton<IPageFactory, LoadoutPageFactory>()
+            .AddSingleton<IPageFactory, DiscoverModsPageFactory>()
             .AddSingleton<IPageFactory, CollectionDownloadPageFactory>()
             .AddSingleton<IPageFactory, CollectionLoadoutPageFactory>()
             .AddSingleton<IPageFactory, ObservableInfoPageFactory>()

@@ -153,6 +153,14 @@
                                     </MenuFlyout>
                                 </controls:StandardButton.Flyout>
                             </controls:StandardButton>
+                            <controls:StandardButton x:Name="DiscoverModsButton"
+                                                     Text="Discover mods"
+                                                     ShowIcon="Left"
+                                                     Size="Toolbar"
+                                                     Type="Tertiary"
+                                                     Fill="None"
+                                                     LeftIcon="{x:Static icons:IconValues.Search}"
+                                                     ToolTip.Tip="Scan the game folder for already-installed mods and import them" />
                             <controls:StandardButton x:Name="Refresh"
                                                      ShowIcon="Left"
                                                      ShowLabel="False"

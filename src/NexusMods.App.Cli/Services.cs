@@ -39,6 +39,7 @@ public static class Services
 
         services.AddProtocolVerbs();
         services.AddDiscoverModsVerbs();
+        services.AddSingleton<ModImporter>();
         return services;
     }
 

@@ -1,10 +1,7 @@
-using System.IO.Compression;
 using DynamicData.Kernel;
 using Microsoft.Extensions.DependencyInjection;
 using NexusMods.Abstractions.Cli;
-using NexusMods.Abstractions.Library;
 using NexusMods.Abstractions.Loadouts;
-using NexusMods.Abstractions.Loadouts.Synchronizers;
 using NexusMods.MnemonicDB.Abstractions;
 using NexusMods.Paths;
 using NexusMods.Sdk;
@@ -30,8 +27,7 @@ public static class DiscoverModsVerbs
         [Injected] IFileSystem fileSystem,
         [Injected] IEnumerable<IModDiscoverer> discoverers,
         [Injected] IConnection connection,
-        [Injected] ILibraryService library,
-        [Injected] ILoadoutManager loadoutManager,
+        [Injected] ModImporter modImporter,
         [Injected] CancellationToken cancellationToken,
         [Option("i", "import", "Import discovered mods into a loadout (default: list only)", isOptional: true)] bool import = false,
         [Option("l", "loadout", "Loadout name to import into. Required with --import when multiple loadouts exist for the game.", isOptional: true)] string? loadoutName = null)
@@ -74,7 +70,6 @@ public static class DiscoverModsVerbs
 
         if (!import || discovered.Count == 0) return 0;
 
-        // Resolve the target loadout
         var targetLoadout = ResolveLoadout(connection, gameId, loadoutName, out var resolveError);
         if (!targetLoadout.HasValue)
         {
@@ -84,50 +79,28 @@ public static class DiscoverModsVerbs
 
         await renderer.TextLine($"Importing into loadout '{targetLoadout.Value.Name}'...");
 
-        var tempDir = fileSystem.GetKnownPath(KnownPath.TempDirectory) / "nma-mod-import";
-        if (!tempDir.DirectoryExists()) tempDir.CreateDirectory();
-
         var imported = 0;
         var failed = 0;
         foreach (var mod in discovered)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            try
+            var result = await modImporter.ImportAsync(mod, targetLoadout.Value.LoadoutId, cancellationToken);
+
+            switch (result.Outcome)
             {
-                AbsolutePath fileToImport;
-                if (mod.RootPath.FileExists)
-                {
-                    // Raw `.archive` files have no installer-recognizable structure
-                    // on their own — SimpleOverlayModInstaller looks for files under
-                    // `archive/pc/mod/`. Wrap into a zip with that layout.
-                    fileToImport = mod.Type == "Archive"
-                        ? CreateZipForArchiveFile(mod.RootPath, tempDir)
-                        : mod.RootPath;
-                }
-                else
-                {
-                    fileToImport = CreateZipFromFolder(mod.RootPath, mod.Name, tempDir);
-                }
-
-                var localFile = await library.AddLocalFile(fileToImport);
-                var installResult = await loadoutManager.InstallItem(localFile.AsLibraryFile().AsLibraryItem(), targetLoadout.Value.LoadoutId);
-
-                if (installResult.LoadoutItemGroup.HasValue)
-                {
+                case ImportOutcome.Installed:
                     await renderer.TextLine($"  ✓ {mod.Name}");
                     imported++;
-                }
-                else
-                {
+                    break;
+                case ImportOutcome.NoInstallerMatched:
                     await renderer.TextLine($"  ✗ {mod.Name} (no installer matched)");
                     failed++;
-                }
-            }
-            catch (Exception e)
-            {
-                await renderer.TextLine($"  ✗ {mod.Name} ({e.Message})");
-                failed++;
+                    break;
+                case ImportOutcome.Failed:
+                    await renderer.TextLine($"  ✗ {mod.Name} ({result.ErrorMessage})");
+                    failed++;
+                    break;
             }
         }
 
@@ -170,48 +143,5 @@ public static class DiscoverModsVerbs
 
         error = null;
         return match;
-    }
-
-    /// <summary>
-    /// Wraps a raw `.archive` file into a zip placing it under
-    /// `archive/pc/mod/&lt;filename&gt;.archive` so SimpleOverlayModInstaller
-    /// recognizes it.
-    /// </summary>
-    private static AbsolutePath CreateZipForArchiveFile(AbsolutePath archiveFile, AbsolutePath tempDir)
-    {
-        var fileName = archiveFile.FileName.ToString();
-        var safeName = string.Concat(fileName.Split(Path.GetInvalidFileNameChars()));
-        var zipPath = tempDir / $"{safeName}-{Guid.NewGuid():N}.zip";
-
-        using var fileStream = File.Create(zipPath.ToString());
-        using var archive = new ZipArchive(fileStream, ZipArchiveMode.Create);
-
-        archive.CreateEntryFromFile(archiveFile.ToString(), $"archive/pc/mod/{fileName}");
-
-        return zipPath;
-    }
-
-    /// <summary>
-    /// Zips a mod folder into a temp file, preserving the folder name as the
-    /// top-level entry so installers like RedModInstaller can find their
-    /// expected `mods/&lt;name&gt;/info.json` structure.
-    /// </summary>
-    private static AbsolutePath CreateZipFromFolder(AbsolutePath folder, string modName, AbsolutePath tempDir)
-    {
-        var safeName = string.Concat(modName.Split(Path.GetInvalidFileNameChars()));
-        var zipPath = tempDir / $"{safeName}-{Guid.NewGuid():N}.zip";
-
-        using var fileStream = File.Create(zipPath.ToString());
-        using var archive = new ZipArchive(fileStream, ZipArchiveMode.Create);
-
-        var folderName = folder.FileName.ToString();
-        foreach (var file in folder.EnumerateFiles(recursive: true))
-        {
-            var relative = file.RelativeTo(folder).ToString();
-            var entryName = $"{folderName}/{relative.Replace('\\', '/')}";
-            archive.CreateEntryFromFile(file.ToString(), entryName);
-        }
-
-        return zipPath;
     }
 }
