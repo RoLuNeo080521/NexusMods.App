@@ -38,8 +38,6 @@ public static class Services
         services.AddSingleton<IIpcProtocolHandler, NxmIpcProtocolHandler>();
 
         services.AddProtocolVerbs();
-        services.AddDiscoverModsVerbs();
-        services.AddSingleton<ModImporter>();
         return services;
     }
 
