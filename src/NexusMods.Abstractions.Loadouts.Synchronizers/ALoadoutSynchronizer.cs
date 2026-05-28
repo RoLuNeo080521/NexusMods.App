@@ -37,10 +37,11 @@ using DiskState = Entities<DiskStateEntry.ReadOnly>;
 public partial class ALoadoutSynchronizer : ILoadoutSynchronizer
 {
     /// <summary>
-    /// We'll limit backups to 2GB, for now we should never see much more than this
-    /// of modified game files. s
+    /// Modern modded games (Cyberpunk 2077, Skyrim AE, etc.) routinely have tens
+    /// of GB of loose .archive/.esp files, so 5GB was blocking legitimate setups
+    /// (upstream issue #4016). 100GB is generous but still catches accidents.
     /// </summary>
-    private static Size MaximumBackupSize => Size.GB * 5;
+    private static Size MaximumBackupSize => Size.GB * 100;
     
     private readonly ScopedAsyncLock _lock = new();
     private readonly IFileStore _fileStore;
