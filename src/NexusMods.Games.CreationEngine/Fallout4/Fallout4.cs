@@ -35,6 +35,8 @@ public class Fallout4 : ICreationEngineGame, IGameData<Fallout4>
     {
         SteamAppIds = [377160u],
         GOGProductIds = [1998527297L],
+        EGSCatalogItemId = ["61d52ce4d09d41e48800c22784d13ae8"],
+        XboxPackageIdentifiers = ["BethesdaSoftworks.Fallout4-PC"],
     };
 
     public IStreamFactory IconImage { get; } = new EmbeddedResourceStreamFactory<Fallout4>("NexusMods.Games.CreationEngine.Resources.Fallout4.thumbnail.webp");

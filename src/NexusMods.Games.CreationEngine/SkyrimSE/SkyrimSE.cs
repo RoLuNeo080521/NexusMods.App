@@ -35,6 +35,8 @@ public class SkyrimSE : ICreationEngineGame, IGameData<SkyrimSE>
     {
         SteamAppIds = [489830u],
         GOGProductIds = [1711230643L],
+        EGSCatalogItemId = ["ac82db5035584c7f8a2c548d98c86b2c"],
+        XboxPackageIdentifiers = ["BethesdaSoftworks.SkyrimSE-PC"],
     };
 
     public IStreamFactory IconImage { get; } = new EmbeddedResourceStreamFactory<SkyrimSE>("NexusMods.Games.CreationEngine.Resources.SkyrimSE.thumbnail.webp");
