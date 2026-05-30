@@ -24,6 +24,13 @@ public record ExperimentalSettings : ISettings
     [
         GameId.From("StardewValley"),
         GameId.From("RedEngine.Cyberpunk2077"),
+        // Games shipped in the codebase but kept hidden upstream. Exposed by
+        // the Community Edition fork so users can try them; some may have
+        // rough edges, see "Enable unsupported games" toggle to hide.
+        GameId.From("CreationEngine.SkyrimSE"),
+        GameId.From("CreationEngine.Fallout4"),
+        GameId.From("Larian.BaldursGate3"),
+        GameId.From("Bannerlord"),
     ];
 
     public static ISettingsBuilder Configure(ISettingsBuilder settingsBuilder)
