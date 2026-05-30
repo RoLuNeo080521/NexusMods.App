@@ -35,6 +35,7 @@ public class UndeployableLoadoutDueToMissingGameFiles : ILoadoutDiagnosticEmitte
         foreach (var (gamePath, node) in syncTree)
         {
             if (node.SourceItemType is not LoadoutSourceItemType.Game || !node.Actions.HasFlag(Actions.WarnOfUnableToExtract)) continue;
+            if (IsDynamicStoreManifest(gamePath)) continue;
             totalSize += node.Loadout.Size;
             count++;
 
@@ -52,5 +53,24 @@ public class UndeployableLoadoutDueToMissingGameFiles : ILoadoutDiagnosticEmitte
                 Version: loadout.GameVersion.ToString()
             );
         }
+    }
+
+    /// <summary>
+    /// Returns true for files that store-specific launchers (GOG/Heroic, etc.)
+    /// regenerate locally and that legitimately can be missing or different from
+    /// the version recorded in the file-hashes index. We don't want to block
+    /// loadout deployment over these.
+    /// </summary>
+    private static bool IsDynamicStoreManifest(GamePath gamePath)
+    {
+        // GOG's per-install manifest files (e.g. goggame-1423049311.info / .hashdb).
+        var name = gamePath.FileName.ToString();
+        if (!name.StartsWith("goggame-", StringComparison.OrdinalIgnoreCase)) return false;
+        return name.EndsWith(".info", StringComparison.OrdinalIgnoreCase)
+            || name.EndsWith(".hashdb", StringComparison.OrdinalIgnoreCase)
+            || name.EndsWith(".ico", StringComparison.OrdinalIgnoreCase)
+            || name.EndsWith(".id", StringComparison.OrdinalIgnoreCase)
+            || name.EndsWith(".sdb", StringComparison.OrdinalIgnoreCase)
+            || name.EndsWith(".script", StringComparison.OrdinalIgnoreCase);
     }
 }
