@@ -21,6 +21,7 @@ public record LanguageSettings : ISettings
         CultureInfo[] supportedLanguages =
         [
             new("en"),      // English
+            new("fr"),      // French
             new("pl"),      // Polish
             new("de"),      // German
             new("it"),      // Italian
